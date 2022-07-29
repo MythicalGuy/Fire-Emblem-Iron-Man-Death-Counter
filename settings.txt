@@ -1,0 +1,6 @@
+size: 100
+game: 8
+bgred: 161
+bggreen: 199
+bgblue: 150
+bg: false
