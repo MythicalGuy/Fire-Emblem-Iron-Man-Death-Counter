@@ -2,7 +2,7 @@
 This tool is for streamers to keep track of characters lost in their Fire Emblem iron man run streams.
 
 ## How to Use
-This tool uses two different program files to function. The "display" file is what you will show to your viewers. It displays the characters that you have marked as being dead. The "config" file is what you will use to configure what is shown on the display window, such as what characters are shown and the background color. Both of these files are able to be running at the same time as the other.
+This tool uses two different program files to function. The "display" file is what you will show to your viewers. It displays the characters that you have marked as being dead. The "config" file is what you will use to configure what is shown on the display window, such as what characters are shown and the background color. Both of these files are intended to be running at the same time as the other.
 
 ## Config File
 The config file is used to configure display of the display file.
@@ -22,8 +22,11 @@ Portaits will wrap to the next line if they will not fit fully on screen. You ca
 
 ### Plus/Minus Shortcut
 When changing the size or the RGB values, if you hold the control key, shift key or both at the same time you can increment them at larger amounts.
+
 Control - 10
+
 Shift - 50
+
 Control + Shift - 100
 
 ### Chroma Keying
