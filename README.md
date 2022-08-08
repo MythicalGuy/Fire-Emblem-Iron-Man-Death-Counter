@@ -1,5 +1,5 @@
 # FE Death Counter
-This tool is for streamers to keep track of characters lost in their Fire Emblem iron man run streams.
+This tool is for streamers to keep track of characters lost in their Fire Emblem iron man run streams. This program was made for my AP Computer Science Principles exam, and I decided to publish it as I thought some people might get some use out of it. I'm still fairly new to python and this is the biggest project I've ever attempted to make with it, so my code is definitely not as clean and efficient as it could be.
 
 ## How to Use
 This tool uses two different program files to function. The "display" file is what you will show to your viewers. It displays the characters that you have marked as being dead. The "config" file is what you will use to configure what is shown on the display window, such as what characters are shown and the background color. Both of these files are intended to be running at the same time as the other.
@@ -21,7 +21,7 @@ Portaits will wrap to the next line if they will not fit fully on screen. You ca
 ## Other Information
 
 ### Plus/Minus Shortcut
-When changing the size or the RGB values, if you hold the control key, shift key or both at the same time you can increment them at larger amounts.
+When changing the image size or the RGB values, if you hold the control key, shift key or both at the same time you can increment them at larger amounts.
 
 Control - 10
 
@@ -30,6 +30,21 @@ Shift - 50
 Control + Shift - 100
 
 ### Chroma Keying
-Recording software like OBS and Streamlabs have options to chroma key out certain colors and make them transparent. It's possible to do this with the background of the display window. However, due to how colorful Fire Emblem characters are finding a color which no character uses is difficult.
+Recording software like OBS and Streamlabs have options to chroma key out certain colors and make them transparent. It's possible to do this with the background of the display window. However, due to how colorful Fire Emblem characters are finding a color which no character uses is difficult. Luckily, some of the older games use specific colors to represent transparency that can be used. I've listed ones I could find here, however I'm almost certain that these are not all accurate and that some are missing.
 
 GBA Games - (161,199,150)
+
+Path of Radiance + Radiant Dawn - (24,192,120) (?)
+
+### Adding More Games
+You can add more games to this program if you are playing a romhack or another game that isn't included. To do so, simply make a new folder in the same directory as the config and display files. Add any images of characters you want to use into this folder. These will be displayed in alphabetical order in the config file. When you run the config file, you should be able to select the new folder you've created. A text file will be created in this folder that will store what characters you have marked as dead inside. Make sure the images used have equal width and height or else they will appear stretched when they are displayed.
+
+## Credits
+Big thanks to:
+
+Both https://fireemblem.fandom.com/wiki/Fire_Emblem_Wiki and https://fireemblemwiki.org/wiki/Main_Page for providing the all the images of all characters in the series in recruitment order. Organizing them was made so much easier thanks to them!
+
+My programming teacher, for inspiring me to create a project like this and being an amazing teacher.
+
+Nintendo and Intelligent Systems for creating the Fire Emblem Series.
+
