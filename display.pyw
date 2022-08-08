@@ -129,6 +129,9 @@ done = False
 
 bgScreen = screen.copy()
  
+icon = pygame.image.load('icon2.ico')
+pygame.display.set_icon(icon)
+
 while not done:
   myPos = pygame.mouse.get_pos()
   for event in pygame.event.get():

@@ -20,7 +20,7 @@ right = pygame.image.load("right.png")
 off = pygame.image.load("off.png")
 on = pygame.image.load('on.png')
 
-icon = pygame.image.load('icon.png')
+icon = pygame.image.load('icon.ico')
 pygame.display.set_icon(icon)
 
 smallplus = pygame.transform.scale(plus, (15,15)) #for changing BG color
@@ -341,6 +341,7 @@ while not done:
   for j in range(len(characterList)):
     for i in range(len(characterList[j])):
       characterImages[j][i].collide = screen.blit(characterImages[j][i].img,[size*i,j*size]) #This sets the collide attribute of the current character to the character's location and displays them there
+      collidelist.append(characterImages[j][i])
       if characterImages[j][i].selected == True: #Displays an "x" over any character who has been marked as dead.
         screen.blit(rip,[size*i,j*size])
   
