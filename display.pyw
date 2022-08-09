@@ -92,7 +92,10 @@ def screenChange(x): #Re-organizes the characters when the size of the screen is
   row = int(x/size) #How many characters fit in one row
  
   j = 0
- 
+
+  while("" in deadnew) :
+    deadnew.remove("")
+
   for i in range(len(deadnew)): #Used to display the dead characters. If there are too many in one row, it goes to the next row.
     while True:
       try:
@@ -103,7 +106,7 @@ def screenChange(x): #Re-organizes the characters when the size of the screen is
         break
       except ZeroDivisionError: #If the window is too small to fit one image, the program only allows one character in each row
         row = 1
-   
+
   for j in range(len(two_d)): #Makes another list of the properly sized images.
     deadimg.append([])
     for i in range(len(two_d[j])):
