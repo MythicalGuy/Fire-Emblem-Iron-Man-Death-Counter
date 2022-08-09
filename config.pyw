@@ -304,8 +304,8 @@ while not done:
   bgText = font.render("Use BG img?", True, "white")
   colorText  = font.render("BG Color:", True, "white")
   redText  = font.render(str(color[0]), True, "red")
-  blueText  = font.render(str(color[1]), True, "blue")
-  greenText  = font.render(str(color[2]), True, "green")
+  greenText  = font.render(str(color[1]), True, "green")
+  blueText  = font.render(str(color[2]), True, "blue")
 
   #Displaying text and images
 
@@ -314,8 +314,8 @@ while not done:
   screen.blit(bgText, (215,700))
   screen.blit(colorText, (0,770))
   screen.blit(redText, (150,770))
-  screen.blit(blueText, (225,770))
-  screen.blit(greenText, (300,770))
+  screen.blit(greenText, (225,770))
+  screen.blit(blueText, (300,770))
 
   plusClick = screen.blit(plus, (100,740))
   minusClick = screen.blit(minus, (50,740))
