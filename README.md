@@ -29,12 +29,8 @@ Shift - 50
 
 Control + Shift - 100
 
-### Chroma Keying
-Recording software like OBS and Streamlabs have options to chroma key out certain colors and make them transparent. It's possible to do this with the background of the display window. However, due to how colorful Fire Emblem characters are finding a color which no character uses is difficult. Luckily, some of the older games use specific colors to represent transparency that can be used. I've listed ones I could find here, however I'm almost certain that these are not all accurate and that some are missing.
-
-GBA Games - (161,199,150)
-
-Path of Radiance + Radiant Dawn - (24,192,120) (?)
+### Transparent Background
+If you want the background of the death counter to show as transparent while you're streaming, you can use the "Save to PNG?" option. This will save a PNG of the display screen with just the characters in the folder where the program is located. It should update whenever you change the display, such as by adding new characters or changing the size of the images. Instead of recording the display window, instead just show the "transparent.png" image.
 
 ### Adding More Games
 You can add more games to this program if you are playing a romhack or another game that isn't included. To do so, simply make a new folder in the same directory as the config and display files. Add any images of characters you want to use into this folder. These will be displayed in alphabetical order in the config file. When you run the config file, you should be able to select the new folder you've created. A text file will be created in this folder that will store what characters you have marked as dead inside. Make sure the images used have equal width and height or else they will appear stretched when they are displayed.
@@ -47,4 +43,3 @@ Both https://fireemblem.fandom.com/wiki/Fire_Emblem_Wiki and https://fireemblemw
 My programming teacher, for inspiring me to create a project like this and being an amazing teacher.
 
 Nintendo and Intelligent Systems for creating the Fire Emblem Series.
-
