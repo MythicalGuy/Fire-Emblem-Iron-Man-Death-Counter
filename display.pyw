@@ -16,13 +16,16 @@ for root, dirnames, filenames in os.walk('.'):
  
 def rewrite(): #This function updates the list of dead characters to the ones specified in the directory's dead.txt file.
   old = open(directory +'/dead.txt').readlines()
-  new = old
+  print(old)
+  new = old.copy()
   for i in range(len(new)):
     new[i] = new[i].rstrip("\n")
+  print(new)
   return old, new
 settings = open('settings.txt').readlines()
  
 def changeSettings(): #This function updates the settings to the new ones specified in settings.txt
+  count = 0
   while True:
     try:
       readSettings = open('settings.txt').readlines()
@@ -33,10 +36,28 @@ def changeSettings(): #This function updates the settings to the new ones specif
       gr = readSettings[3].split(":")[1]
       b = readSettings[4].split(":")[1]
       bg = readSettings[5].split(":")[1]
+      p = readSettings[6].split(":")[1]
       break
     except IndexError: #Makes sure that the program doesn't try to read the file while it is still being written to.
       print(readSettings)
       print("retrying")
+      count += 1
+      if count >= 150:
+        with open('settings.txt', 'w') as x: #resets to default settings if the text file is formatted incorrectly and the config file is unable to
+          x.write("size: 100")
+          x.write("\n")
+          x.write("game: 0")
+          x.write("\n")
+          x.write("bgred: 161")
+          x.write("\n")
+          x.write("bggreen: 191")
+          x.write("\n")
+          x.write("bgblue: 150")
+          x.write("\n")
+          x.write("bg: false")
+          x.write("\n")
+          x.write("png: false")
+          x.write("\n")
       continue
 
   s = s.strip(" ")
@@ -45,6 +66,7 @@ def changeSettings(): #This function updates the settings to the new ones specif
   gr = gr.strip(" ")
   b = b.strip(" ")
   bg = bg.strip(" ")
+  p = p.strip(" ")
 
   s = s.strip("\n")
   g = g.strip("\n")
@@ -52,6 +74,7 @@ def changeSettings(): #This function updates the settings to the new ones specif
   gr = gr.strip("\n")
   b = b.strip("\n")
   bg = bg.strip("\n")
+  p = p.strip("\n")
   
   s = int(s)
   g = int(g)
@@ -65,18 +88,27 @@ def changeSettings(): #This function updates the settings to the new ones specif
   print(gr)
   print(b)
   print(bg)
+  print(p)
 
   if bg.lower() == "true":
     returnBg = True
   else:
     returnBg = False
 
-  return readSettings, s, g, (r,gr,b), returnBg
+  if p.lower() == "true":
+    returnP = True
+  else:
+    returnP = False
+
+  return readSettings, s, g, (r,gr,b), returnBg, returnP
  
 color = (0,0,0)
 
-settings, size, choice, color, bgCheck = changeSettings() #Updates the settings related to the settings file.
+settings, size, choice, color, bgCheck, saveCheck = changeSettings() #Updates the settings related to the settings file.
 directory = files[choice] #Sets the correct directory
+
+saveImage = True #Used to save update the saved image whenever the display is updated
+
 deadold = []
 deadnew = []
  
@@ -84,13 +116,11 @@ two_d = [[]]
  
 screenx = 400
 screeny = 400
-
  
 deadimg = []
 
 def screenChange(x): #Re-organizes the characters when the size of the screen is changed.
   row = int(x/size) #How many characters fit in one row
- 
   j = 0
 
   while("" in deadnew) :
@@ -126,12 +156,15 @@ for i in characters:
 pygame.init()
 screen = pygame.display.set_mode((screenx,screeny),HWSURFACE|DOUBLEBUF|RESIZABLE) #From https://stackoverflow.com/questions/34910086/pygame-how-do-i-resize-a-surface-and-keep-all-objects-within-proportionate-to-t
  
-pygame.display.set_caption("Death Counter")
+pygame.display.set_caption("Counter Display")
  
 done = False
 
 bgScreen = screen.copy()
- 
+
+charScreen = pygame.Surface((screenx,screeny))
+charScreen = charScreen.convert_alpha()
+
 icon = pygame.image.load('icon2.ico')
 pygame.display.set_icon(icon)
 
@@ -145,24 +178,50 @@ while not done:
       deadimg = []
       screen = pygame.display.set_mode(event.size, HWSURFACE|DOUBLEBUF|RESIZABLE)
       screenx, screeny = pygame.display.get_surface().get_size()
+      charScreen = pygame.Surface((screenx,screeny))
+      charScreen = charScreen.convert_alpha()
       screenChange(screenx)
+      print("changed window size")
+      saveImage = True
            
+  
   screen.fill(color)
+  screen.blit(charScreen,(0,0))
+  charScreen.fill((0,0,0,0))
   if bgCheck: #Shows the custom background if the box is checked in the config program.
     screen.blit(pygame.transform.scale(bgScreen, screen.get_rect().size), (0, 0))
   bgScreen.blit(background,[0,0])
   if settings != open('settings.txt').readlines(): #Checks if the settings file has been changed
-    settings, size, choice, color, bgCheck = changeSettings()
+    print("changed settings")
+    settings, size, choice, color, bgCheck, saveCheck = changeSettings()
     directory = files[choice]
+    deadold, deadnew = rewrite()
+    saveImage = True
  
+  for j in range(len(two_d)): # Displays the dead characters in the same order as the 2D array.
+      for i in range(len(two_d[j])):
+        charScreen.blit(deadimg[j][i],[size*i,j*size])
+  two_d = [[]]
+  deadimg = []
+
+  if saveCheck and saveImage: #If the "Save to PNG?" option is checked and there was a change made, saves as the display as a PNG.
+    while True:
+      try:
+        saveImage = False #prevents the image from saving again until another change is made
+        pygame.image.save(charScreen,"transparent.png")
+        break
+      except pygame.error: #In case the program tries to overwrite an image that is still being saved
+        continue
+
   if deadold != open(directory+'/dead.txt').readlines(): #Checks if the dead.txt file has been changed
     deadimg = []
     two_d = [[]]
     deadold, deadnew = rewrite()
+    print("changed dead")
+    saveImage = True
   screenChange(screenx) #Constantly changes the amount of characters that can fit in one row to be correct to the screen size.
- 
-  for j in range(len(two_d)): # Displays the dead characters in the same order as the 2D array.
-    for i in range(len(two_d[j])):
-      screen.blit(deadimg[j][i],[size*i,j*size])
+
+  #print(saveCheck)
+
   pygame.display.flip()
 pygame.quit()

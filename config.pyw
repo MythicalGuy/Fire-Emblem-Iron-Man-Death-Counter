@@ -11,6 +11,7 @@ choice = 0
 color = [161,199,150]
 
 bgCheck = False
+saveCheck = False
 
 #loading images
 plus = pygame.image.load("plus.png")
@@ -25,6 +26,9 @@ pygame.display.set_icon(icon)
 
 smallplus = pygame.transform.scale(plus, (15,15)) #for changing BG color
 smallminus = pygame.transform.scale(minus, (15,15))
+
+smallon = pygame.transform.scale(on, (15,15)) #for toggling PNG saving
+smalloff = pygame.transform.scale(off, (15,15))
 
 #Lists all the folders in the folder the program is located in.
 for root, dirnames, filenames in os.walk('.'): #Taken from https://stackoverflow.com/questions/141291/how-to-list-only-top-level-directories-in-python
@@ -59,6 +63,11 @@ def writeSettings(x):
   else:
     x.write("bg: false")
   x.write("\n")
+  if saveCheck == True:
+    x.write("png: true")
+  else:
+    x.write("png: false")
+  x.write("\n")
 
 def changeSettings(): #Loads the settings from the settings file.
   while True:
@@ -72,6 +81,7 @@ def changeSettings(): #Loads the settings from the settings file.
       gr = settings[3].split(":")[1]
       b = settings[4].split(":")[1]
       bg = settings[5].split(":")[1]
+      p = settings[6].split(":")[1]
       break
     except IndexError:
       with open('settings.txt', 'w') as f: #resets to default settings if the text file is formatted incorrectly
@@ -83,6 +93,7 @@ def changeSettings(): #Loads the settings from the settings file.
   gr = gr.strip(" ")
   b = b.strip(" ")
   bg = bg.strip(" ")
+  p = p.strip(" ")
 
   s = s.strip("\n")
   g = g.strip("\n")
@@ -90,6 +101,7 @@ def changeSettings(): #Loads the settings from the settings file.
   gr = gr.strip("\n")
   b = b.strip("\n")
   bg = bg.strip("\n")
+  p = p.strip("\n")
 
   s = int(s)
   g = int(g)
@@ -101,10 +113,15 @@ def changeSettings(): #Loads the settings from the settings file.
     returnBg = True
   else:
     returnBg = False
+  
+  if p.lower() == "true":
+    returnP = True
+  else:
+    returnP = False
 
-  return s,g, [r,gr,b], returnBg
+  return s,g, [r,gr,b], returnBg, returnP
 
-mainSize, choice, color, bgCheck = changeSettings()
+mainSize, choice, color, bgCheck, saveCheck = changeSettings()
 
 directory = files[choice] #Opens the folder of the game that the user has specified.
 
@@ -164,12 +181,13 @@ done = False
 collidelist = []
 
 font = pygame.font.SysFont("Times New Roman", 30, False, False)
-
+smallFont = pygame.font.SysFont("Times New Roman", 20, False, False)
 plusClick = screen.blit(plus, (50,540))
 minusClick = screen.blit(minus, (100,540))
 leftClick = screen.blit(left, (150,460))
 rightClick = screen.blit(right, (200,460))
-toggleClick = screen.blit(on, (275,740))
+toggleBGclick = screen.blit(on, (275,740))
+togglePNGclick = screen.blit(on, (275,740))
 
 #Used to check if these keys are being held by the user.
 controlHeld = False
@@ -261,11 +279,18 @@ while not done:
           characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
           with open('settings.txt', 'w') as f:
             writeSettings(f)
-        if toggleClick.collidepoint(myPos): #Toggles if the bg.png image should be used as the background.
+        if toggleBGclick.collidepoint(myPos): #Toggles if the bg.png image should be used as the background.
           if bgCheck == True:
             bgCheck = False
           else:
             bgCheck = True
+          with open('settings.txt', 'w') as f:
+            writeSettings(f)
+        if togglePNGclick.collidepoint(myPos): #Toggles if the image will be saved as PNG when updated.
+          if saveCheck == True:
+            saveCheck = False
+          else:
+            saveCheck = True
           with open('settings.txt', 'w') as f:
             writeSettings(f)
         for i in collidelist: #Checks if the user has clicked on a character.
@@ -306,6 +331,7 @@ while not done:
   redText  = font.render(str(color[0]), True, "red")
   greenText  = font.render(str(color[1]), True, "green")
   blueText  = font.render(str(color[2]), True, "blue")
+  pngText = smallFont.render("Save to PNG?", True, "white")
 
   #Displaying text and images
 
@@ -316,6 +342,7 @@ while not done:
   screen.blit(redText, (150,770))
   screen.blit(greenText, (225,770))
   screen.blit(blueText, (300,770))
+  screen.blit(pngText, (0,820))
 
   plusClick = screen.blit(plus, (100,740))
   minusClick = screen.blit(minus, (50,740))
@@ -333,9 +360,14 @@ while not done:
   
   
   if bgCheck == True:
-    toggleClick = screen.blit(on, (275,740))
+    toggleBGclick = screen.blit(on, (275,740))
   else:
-    toggleClick = screen.blit(off, (275,740))
+    toggleBGclick = screen.blit(off, (275,740))
+
+  if saveCheck == True:
+    togglePNGclick = screen.blit(smallon, (120,825))
+  else:
+    togglePNGclick = screen.blit(smalloff, (120,825))
 
 #Goes through the list of characters and displays them as they are organized in the 2D array..
   for j in range(len(characterList)):
