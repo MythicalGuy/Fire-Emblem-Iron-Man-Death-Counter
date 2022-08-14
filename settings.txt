@@ -4,3 +4,4 @@ bgred: 161
 bggreen: 199
 bgblue: 150
 bg: false
+png: false
