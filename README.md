@@ -30,7 +30,7 @@ Shift - 50
 Control + Shift - 100
 
 ### Transparent Background
-If you want the background of the death counter to show as transparent while you're streaming, you can use the "Save to PNG?" option. This will save a PNG of the display screen with just the characters in the folder where the program is located. It should update whenever you change the display, such as by adding new characters or changing the size of the images. Instead of recording the display window, instead just show the "transparent.png" image.
+If you want the background of the death counter to show as transparent while you're streaming, you can use the "Save to PNG?" option. This will save an image named "transparent.png" containing the contents of the display window. It should update whenever you change the display, such as by adding new characters or changing the size of the images. Instead of recording the display window, instead just show the "transparent.png" image.
 
 ### Adding More Games
 You can add more games to this program if you are playing a romhack or another game that isn't included. To do so, simply make a new folder in the same directory as the config and display files. Add any images of characters you want to use into this folder. These will be displayed in alphabetical order in the config file. When you run the config file, you should be able to select the new folder you've created. A text file will be created in this folder that will store what characters you have marked as dead inside. Make sure the images used have equal width and height or else they will appear stretched when they are displayed.
