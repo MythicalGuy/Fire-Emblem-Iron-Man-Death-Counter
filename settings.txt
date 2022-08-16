@@ -4,3 +4,5 @@ bgred: 161
 bggreen: 199
 bgblue: 150
 opacity: 0
+imgx = 400
+imgy = 400
