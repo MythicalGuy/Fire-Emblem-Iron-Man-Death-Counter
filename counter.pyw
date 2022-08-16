@@ -266,21 +266,21 @@ while not done:
           with open('settings.txt', 'w') as f:
             writeSettings(f)
         if outputxplus.collidepoint(myPos):
-          displayx = plusMinus(displayx,True,1,1000)
+          displayx = plusMinus(displayx,True,1,2500)
           with open('settings.txt', 'w') as f: #Updates the settings file
             #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
             writeSettings(f)
         if outputxminus.collidepoint(myPos):
-          displayx = plusMinus(displayx,False,1,1000)
+          displayx = plusMinus(displayx,False,1,2500)
           with open('settings.txt', 'w') as f:
             writeSettings(f)
         if outputyplus.collidepoint(myPos):
-          displayy = plusMinus(displayy,True,1,1000)
+          displayy = plusMinus(displayy,True,1,2500)
           with open('settings.txt', 'w') as f: #Updates the settings file
             #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
             writeSettings(f)
         if outputyminus.collidepoint(myPos):
-          displayy = plusMinus(displayy,False,1,1000)
+          displayy = plusMinus(displayy,False,1,2500)
           with open('settings.txt', 'w') as f:
             writeSettings(f)
         if redplus.collidepoint(myPos):
