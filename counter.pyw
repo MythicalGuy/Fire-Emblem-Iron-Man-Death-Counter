@@ -43,7 +43,7 @@ class Char: #This class is used to represent each character.
     self.name =  name #File name of the character
 
 screenx = 400
-screeny = 850
+screeny = 830
 
 displayx = 400
 displayy = 400
@@ -62,6 +62,10 @@ def writeSettings(x):
   x.write("\n")
   x.write("opacity: " + str(color[3]))
   x.write("\n")
+  x.write("imgx: " + str(displayx))
+  x.write("\n")
+  x.write("imgy: " + str(displayy))
+  x.write("\n")
 
 def changeSettings(): #Loads the settings from the settings file.
   while True:
@@ -75,6 +79,8 @@ def changeSettings(): #Loads the settings from the settings file.
       gr = settings[3].split(":")[1]
       b = settings[4].split(":")[1]
       o = settings[5].split(":")[1]
+      x = settings[6].split(":")[1]
+      y = settings[7].split(":")[1]
       break
     except IndexError:
       with open('settings.txt', 'w') as f: #resets to default settings if the text file is formatted incorrectly
@@ -86,13 +92,16 @@ def changeSettings(): #Loads the settings from the settings file.
   gr = gr.strip(" ")
   b = b.strip(" ")
   o = o.strip(" ")
-  
+  x = x.strip(" ")
+  y = y.strip(" ")
+
   s = s.strip("\n")
   g = g.strip("\n")
   r = r.strip("\n")
   gr = gr.strip("\n")
   b = b.strip("\n")
-  o = o.strip("\n")
+  x = x.strip("\n")
+  y = y.strip("\n")
 
   s = int(s)
   g = int(g)
@@ -100,10 +109,12 @@ def changeSettings(): #Loads the settings from the settings file.
   gr = int(gr)
   b = int(b)
   o = int(o)
+  x = int(x)
+  y = int(y)
 
-  return s,g, [r,gr,b, o]
+  return s,g, [r,gr,b, o], x, y
 
-mainSize, choice, color = changeSettings()
+mainSize, choice, color, displayx, displayy = changeSettings()
 directory = files[choice] #Opens the folder of the game that the user has specified.
 dead = open(directory+'/dead.txt').readlines()
 for i in range(len(dead)):
@@ -157,7 +168,7 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
 characters, characterList, characterImages, characterDead, selected = newGame(directory)
 screen = pygame.display.set_mode((screenx,screeny))
 
-pygame.display.set_caption("Counter Config")
+pygame.display.set_caption("FE Death Counter")
 
 done = False
 
