@@ -3,5 +3,4 @@ game: 0
 bgred: 161
 bggreen: 199
 bgblue: 150
-bg: false
-png: false
+opacity: 0
