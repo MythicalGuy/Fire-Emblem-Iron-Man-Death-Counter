@@ -246,108 +246,108 @@ def screenChange(x): #Re-organizes the characters when the size of the screen is
       x = pygame.transform.scale(x, (mainSize,mainSize))
       deadimg[j].append(x)
 
-while not done: 
+while not done:
+  event = pygame.event.wait()
   myPos = pygame.mouse.get_pos()
-  for event in pygame.event.get():
-    if event.type == pygame.QUIT:
-      done = True          
-    elif event.type == pygame.MOUSEBUTTONDOWN: 
-      if event.button == 1: #Checks what the user clicked.
-        saveImage = True
-        #Plus/Minus Clicks
-        if plusClick.collidepoint(myPos):
-          mainSize = plusMinus(mainSize,True,1,1000)
-          with open('settings.txt', 'w') as f: #Updates the settings file
-            #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
-            writeSettings(f)
-            
-        if minusClick.collidepoint(myPos):
-          mainSize = plusMinus(mainSize,False,1,1000)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if outputxplus.collidepoint(myPos):
-          displayx = plusMinus(displayx,True,1,2500)
-          with open('settings.txt', 'w') as f: #Updates the settings file
-            #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
-            writeSettings(f)
-        if outputxminus.collidepoint(myPos):
-          displayx = plusMinus(displayx,False,1,2500)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if outputyplus.collidepoint(myPos):
-          displayy = plusMinus(displayy,True,1,2500)
-          with open('settings.txt', 'w') as f: #Updates the settings file
-            #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
-            writeSettings(f)
-        if outputyminus.collidepoint(myPos):
-          displayy = plusMinus(displayy,False,1,2500)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if redplus.collidepoint(myPos):
-          color[0] = plusMinus(color[0],True,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if redminus.collidepoint(myPos):
-          color[0] = plusMinus(color[0],False,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if greenplus.collidepoint(myPos):
-          color[1] = plusMinus(color[1],True,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if greenminus.collidepoint(myPos):
-          color[1] = plusMinus(color[1],False,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if blueplus.collidepoint(myPos):
-          color[2] = plusMinus(color[2],True,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if blueminus.collidepoint(myPos):
-          color[2] = plusMinus(color[2],False,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if opacityplus.collidepoint(myPos):
-          color[3] = plusMinus(color[3],True,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        if opacityminus.collidepoint(myPos):
-          color[3] = plusMinus(color[3],False,0,255)
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        #Arrow Clicks
-        if leftClick.collidepoint(myPos): #Goes to the previous directory in the folder.
-          choice -= 1
-          if choice < 0: #If the index is too low, and if so loops back to the end of the list.
-            choice = len(files) - 1
-          directory = files[choice] #Changes the directory that the program is taking the characters from
-          characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
-          with open('settings.txt', 'w') as f: 
-            writeSettings(f)
-        if rightClick.collidepoint(myPos): #Goes to the next directory in the folder.
-          choice += 1
-          if choice > len(files) - 1: #Checks if the index is at the end of the list, and if so loops to the beginning of the list.
-            choice = 0
-          directory = files[choice] #Changes the directory that the program is taking the characters from
-          characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
-          with open('settings.txt', 'w') as f:
-            writeSettings(f)
-        for i in collidelist: #Checks if the user has clicked on a character.
-          if i.collide.collidepoint(myPos) and i.selected == False: #Marks the character as dead if it isn't already
-            i.selected = True
-            selected.append(i.name)
-            #Taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
-            with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
-              for line in selected:
-                  f.write(line)
-                  f.write('\n')
-          elif i.collide.collidepoint(myPos) and i.selected == True: #Unmarks the character as dead
-            i.selected = False
-            selected.remove(i.name)
-            with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
-              for line in selected:
-                  f.write(line)
-                  f.write('\n')
+  if event.type == pygame.QUIT:
+    done = True
+  elif event.type == pygame.MOUSEBUTTONDOWN: 
+    if event.button == 1: #Checks what the user clicked.
+      saveImage = True
+      #Plus/Minus Clicks
+      if plusClick.collidepoint(myPos):
+        mainSize = plusMinus(mainSize,True,1,1000)
+        with open('settings.txt', 'w') as f: #Updates the settings file
+          #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
+          writeSettings(f)
+          
+      if minusClick.collidepoint(myPos):
+        mainSize = plusMinus(mainSize,False,1,1000)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if outputxplus.collidepoint(myPos):
+        displayx = plusMinus(displayx,True,1,2500)
+        with open('settings.txt', 'w') as f: #Updates the settings file
+          #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
+          writeSettings(f)
+      if outputxminus.collidepoint(myPos):
+        displayx = plusMinus(displayx,False,1,2500)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if outputyplus.collidepoint(myPos):
+        displayy = plusMinus(displayy,True,1,2500)
+        with open('settings.txt', 'w') as f: #Updates the settings file
+          #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
+          writeSettings(f)
+      if outputyminus.collidepoint(myPos):
+        displayy = plusMinus(displayy,False,1,2500)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if redplus.collidepoint(myPos):
+        color[0] = plusMinus(color[0],True,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if redminus.collidepoint(myPos):
+        color[0] = plusMinus(color[0],False,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if greenplus.collidepoint(myPos):
+        color[1] = plusMinus(color[1],True,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if greenminus.collidepoint(myPos):
+        color[1] = plusMinus(color[1],False,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if blueplus.collidepoint(myPos):
+        color[2] = plusMinus(color[2],True,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if blueminus.collidepoint(myPos):
+        color[2] = plusMinus(color[2],False,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if opacityplus.collidepoint(myPos):
+        color[3] = plusMinus(color[3],True,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      if opacityminus.collidepoint(myPos):
+        color[3] = plusMinus(color[3],False,0,255)
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      #Arrow Clicks
+      if leftClick.collidepoint(myPos): #Goes to the previous directory in the folder.
+        choice -= 1
+        if choice < 0: #If the index is too low, and if so loops back to the end of the list.
+          choice = len(files) - 1
+        directory = files[choice] #Changes the directory that the program is taking the characters from
+        characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
+        with open('settings.txt', 'w') as f: 
+          writeSettings(f)
+      if rightClick.collidepoint(myPos): #Goes to the next directory in the folder.
+        choice += 1
+        if choice > len(files) - 1: #Checks if the index is at the end of the list, and if so loops to the beginning of the list.
+          choice = 0
+        directory = files[choice] #Changes the directory that the program is taking the characters from
+        characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
+        with open('settings.txt', 'w') as f:
+          writeSettings(f)
+      for i in collidelist: #Checks if the user has clicked on a character.
+        if i.collide.collidepoint(myPos) and i.selected == False: #Marks the character as dead if it isn't already
+          i.selected = True
+          selected.append(i.name)
+          #Taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
+          with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
+            for line in selected:
+                f.write(line)
+                f.write('\n')
+        elif i.collide.collidepoint(myPos) and i.selected == True: #Unmarks the character as dead
+          i.selected = False
+          selected.remove(i.name)
+          with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
+            for line in selected:
+                f.write(line)
+                f.write('\n')
 
   collidelist = [] #Clears the list of the current locations of characters so that it can be updated later.
   displayScreen = pygame.Surface((displayx,displayy))
