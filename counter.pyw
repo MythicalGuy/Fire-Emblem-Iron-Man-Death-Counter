@@ -159,21 +159,11 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
         dead[deadlist.index(x.name)] =  x
       x.img = pygame.transform.scale(x.img, (size,size)) #Resizes the character's image to the proper size.
       charimg[j].append(x) #Adds the instance for the character to the charimg list.
-  print("DEADLIST:")
-  print(deadlist)
-  print("DEAD:")
-  for i in dead:
-    try:
-      print(i.name)
-    except AttributeError:
-      print("None")
   for i in dead: #Goes through the list of characters and the list of dead ones. Any character that is in the list of dead ones is added to the list of selected characters and marked as selected.
     for j in char:
       if j == i.name:
         s.append(i.name)
         i.selected = True
-  print("S:")
-  print(s)
   return char, clist, charimg, dead, s
 
 characters, characterList, characterImages, characterDead, selectedList = newGame(directory)
