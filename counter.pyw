@@ -119,6 +119,7 @@ directory = files[choice] #Opens the folder of the game that the user has specif
 dead = open(directory+'/dead.txt').readlines()
 for i in range(len(dead)):
   dead[i] = dead[i].rstrip("\n")
+
 size = 50 #Size of the characters on this window.
 row = screenx / size #Amount of images that can fit on one row
 
@@ -126,7 +127,6 @@ rip = pygame.image.load("x.png")
 rip = pygame.transform.scale(rip, (size,size))
 
 def newGame(d): #This function is used whenever the user wants to switch to a different game folder. It opens the appropriate directory and puts the contents into a list.
-  dead = []
   charimg = []
   s = []
   char = os.listdir(d)
@@ -136,6 +136,8 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
     deadlist = open(d+'/dead.txt',"w+").readlines()
   for i in range(len(deadlist)): #Goes through deadlist and removes the new line characters.
     deadlist[i] = deadlist[i].rstrip("\n")
+
+  dead = [None] * len(deadlist)
 
   for i in char: #Removes any files in the directory that aren't png or jpg files from the list.
     if not i.endswith(".png") and not i.endswith(".jpg"):
@@ -149,23 +151,32 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
       z += 1
       clist.append([])
     clist[z].append(char[i])
-
   for j in range(len(clist)): #Converts the clist into a 2D array of instances of the Char class.
     charimg.append([]) #Charimg is a 2D array of instances of the "Char" class that will store information about them, like if they are dead or not and their image.
     for i in range(len(clist[j])):
       x = Char(pygame.image.load(d+"/"+clist[j][i]), clist[j][i]) #Creates an instance of the Char class with the character's file name and it's path.
       if x.name in deadlist: #Checks if the character's file name is in deadlist, and if so adds the instance to a new list called dead.
-        dead.append(x)
+        dead[deadlist.index(x.name)] =  x
       x.img = pygame.transform.scale(x.img, (size,size)) #Resizes the character's image to the proper size.
       charimg[j].append(x) #Adds the instance for the character to the charimg list.
-  for i in char: #Goes through the list of characters and the list of dead ones. Any character that is in the list of dead ones is added to the list of selected characters and marked as selected.
-    for j in dead:
-      if j.name == i:
-        s.append(j.name)
-        j.selected = True
+  print("DEADLIST:")
+  print(deadlist)
+  print("DEAD:")
+  for i in dead:
+    try:
+      print(i.name)
+    except AttributeError:
+      print("None")
+  for i in dead: #Goes through the list of characters and the list of dead ones. Any character that is in the list of dead ones is added to the list of selected characters and marked as selected.
+    for j in char:
+      if j == i.name:
+        s.append(i.name)
+        i.selected = True
+  print("S:")
+  print(s)
   return char, clist, charimg, dead, s
 
-characters, characterList, characterImages, characterDead, selected = newGame(directory)
+characters, characterList, characterImages, characterDead, selectedList = newGame(directory)
 screen = pygame.display.set_mode((screenx,screeny))
 
 pygame.display.set_caption("FE Death Counter")
@@ -321,7 +332,7 @@ while not done:
         if choice < 0: #If the index is too low, and if so loops back to the end of the list.
           choice = len(files) - 1
         directory = files[choice] #Changes the directory that the program is taking the characters from
-        characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
+        characters, characterList, characterImages, characterDead, selectedList = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
         with open('settings.txt', 'w') as f: 
           writeSettings(f)
       if rightClick.collidepoint(myPos): #Goes to the next directory in the folder.
@@ -329,23 +340,23 @@ while not done:
         if choice > len(files) - 1: #Checks if the index is at the end of the list, and if so loops to the beginning of the list.
           choice = 0
         directory = files[choice] #Changes the directory that the program is taking the characters from
-        characters, characterList, characterImages, characterDead, selected = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
+        characters, characterList, characterImages, characterDead, selectedList = newGame(directory) #Recreates the lists the program uses to now have the characters from the specified game.
         with open('settings.txt', 'w') as f:
           writeSettings(f)
       for i in collidelist: #Checks if the user has clicked on a character.
         if i.collide.collidepoint(myPos) and i.selected == False: #Marks the character as dead if it isn't already
           i.selected = True
-          selected.append(i.name)
+          selectedList.append(i.name)
           #Taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
           with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
-            for line in selected:
+            for line in selectedList:
                 f.write(line)
                 f.write('\n')
         elif i.collide.collidepoint(myPos) and i.selected == True: #Unmarks the character as dead
           i.selected = False
-          selected.remove(i.name)
+          selectedList.remove(i.name)
           with open(directory+'/dead.txt', 'w') as f: #Retwrites the list of dead characters with the updated information.
-            for line in selected:
+            for line in selectedList:
                 f.write(line)
                 f.write('\n')
 
@@ -419,7 +430,7 @@ while not done:
   deadimg = []
   screenChange(displayx)
 
-  #Goes through the list of characters and displays them as they are organized in the 2D array..
+  #Goes through the list of characters and displays them as they are organized in the 2D array.
   for j in range(len(characterList)):
     for i in range(len(characterList[j])):
       characterImages[j][i].collide = screen.blit(characterImages[j][i].img,[size*i,j*size]) #This sets the collide attribute of the current character to the character's location and displays them there
