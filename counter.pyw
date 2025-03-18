@@ -136,7 +136,6 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
     deadlist = open(d+'/dead.txt',"w+").readlines()
   for i in range(len(deadlist)): #Goes through deadlist and removes the new line characters.
     deadlist[i] = deadlist[i].rstrip("\n")
-
   dead = [None] * len(deadlist)
 
   for i in char: #Removes any files in the directory that aren't png or jpg files from the list.
@@ -161,7 +160,7 @@ def newGame(d): #This function is used whenever the user wants to switch to a di
       charimg[j].append(x) #Adds the instance for the character to the charimg list.
   for i in dead: #Goes through the list of characters and the list of dead ones. Any character that is in the list of dead ones is added to the list of selected characters and marked as selected.
     for j in char:
-      if j == i.name:
+      if i != None and j == i.name:
         s.append(i.name)
         i.selected = True
   return char, clist, charimg, dead, s
