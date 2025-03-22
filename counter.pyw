@@ -115,8 +115,19 @@ def changeSettings(): #Loads the settings from the settings file.
   return s,g, [r,gr,b, o], x, y
 
 mainSize, choice, color, displayx, displayy = changeSettings()
-directory = files[choice] #Opens the folder of the game that the user has specified.
-dead = open(directory+'/dead.txt').readlines()
+try:
+  directory = files[choice] #Opens the folder of the game that the user has specified.
+except IndexError: #If the directory is out of range for some reason, such as due to the user deleting a folder, open the first directory
+  choice = 0
+  directory = files[choice]
+  with open('settings.txt', 'w') as f: #Updates the settings file
+    #taken from https://www.pythontutorial.net/python-basics/python-write-text-file/
+    writeSettings(f)
+try:
+  dead = open(directory+'/dead.txt').readlines()
+except FileNotFoundError:
+  dead = open(directory+'/dead.txt',"w+").readlines()
+
 for i in range(len(dead)):
   dead[i] = dead[i].rstrip("\n")
 
